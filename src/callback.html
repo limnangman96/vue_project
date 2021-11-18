@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise</title>
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script>
+        function callAjax() { //promise 객체 반환
+            return new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: "https://api.hnpwa.com/v0/news/1.json",
+                    success: function(data) {
+                        resolve(data);
+                    },
+                    error: function(error) {
+                        reject(error);
+                    }
+                })
+            })
+        }
+
+        // 1
+        function fetchData() {
+            var result = []
+        }
+
+        // 3
+        // $.ajax({
+        //     url: "https://api.hnpwa.com/v0/news/1.json",
+        //     success: function(data) {
+        //         result = data;
+        //         // 4 때문에 success에서 실행을 시켜야 하는데 자꾸 쌓을 수 없다 > promise 이용
+        //         console.log('함수결과: ', result);
+        //     },
+        //     error: function() {
+        //         console.error(error);
+        //     }
+        // })
+
+        // 2 자바스크립트의 비동기처리로 인해 아래 console.log가 먼저 찍힌다.
+        // console.log('함수결과: ', result); //null
+
+        // 
+        callAjax()
+            .then(function(data) {
+                // 실행문
+                console.log(data);
+                result = data;
+            })
+            .catch(function(error) {
+                console.error(error);
+            })
+    </script>
+</body>
+</html>
